@@ -18,3 +18,7 @@ Working Folder for project automation test POS project
 4. Pembuatan script test pada setiap produk dibuat dalam satu project, 
    a. sehingga setiap kali selesai membuat script pastikan sudah pull dan lakukan di push
    b. sepakati penamaan behaviour yang sama sehingga tidak menimbulkan konflik
+
+# Aturan push
+1. file yang dipush hanya source, sementara class dan setting project tidak di push
+2. chrome driver tidak dipush, sehingga jika ada yang berbeda versi cromenya dapat disesuaikan dengan masing-masing environtment. {Pilih git ignore} 
