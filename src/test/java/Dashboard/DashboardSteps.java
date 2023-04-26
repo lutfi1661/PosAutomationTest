@@ -16,17 +16,18 @@ public class DashboardSteps {
 	
 	WebDriver driver = null;
 	
-	@Given("browser is open")
-	public void browser_is_open()
-	{
-		System.setProperty("webdriver.chrome.driver","D:\\COLLEGE\\VI\\PPL\\W11\\CucumberJava\\src\\test\\resources\\drivers\\chromedriver.exe");
-	    ChromeOptions options = new ChromeOptions();
-	    options.addArguments("--remote-allow-origins=*");
-	    
-	    driver = new ChromeDriver(options);
-	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));	  		
-	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
-	}
+//	@Given("browser is open")
+//	public void browser_is_open()
+//	{
+//		System.setProperty("webdriver.chrome.driver","D:\\COLLEGE\\VI\\PPL\\W11\\CucumberJava\\src\\test\\resources\\drivers\\chromedriver.exe");
+//	    ChromeOptions options = new ChromeOptions();
+//	    options.addArguments("--remote-allow-origins=*");
+//
+//	    driver = new ChromeDriver(options);
+//	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+//	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+//	}
+
 	@And("user login to bleven pos successfully for dashboard")
 	public void user_enters_email_and_password_for_dashboard() throws InterruptedException 
 	{
