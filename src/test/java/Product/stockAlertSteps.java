@@ -1,0 +1,116 @@
+package Product;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.time.Duration;
+import java.util.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+import io.cucumber.java.en.And;
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import io.cucumber.java.en.When;
+
+public class stockAlertSteps {
+WebDriver driver = null;
+	
+	@Given("user product has opened the browser")
+	public void user_product_has_opened_the_browser() {
+	    System.setProperty("webdriver.chrome.driver", "C:/Users/jasmine/eclipse-workspace/CucumberJava/src/test/resources/drivers/chromedriver.exe");
+	    ChromeOptions options = new ChromeOptions();
+	    options.addArguments("--remote-allow-origins=*");
+	    
+	    driver = new ChromeDriver(options);
+	    
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
+	}
+	
+	@And("user product on the dashboard page")
+	public void user_product_on_the_dashboard_page() {
+	    driver.navigate().to("https://app.bleven.web.id/home");
+	    driver.findElement(By.id("email")).sendKeys("fiora@gmail.com");
+	    driver.findElement(By.id("password")).sendKeys("fiora");
+	    driver.findElement(By.tagName("form")).submit();
+	}
+	
+	@And("user product on the product page")
+	public void user_product_on_the_product_page() {
+	    driver.navigate().to("https://app.bleven.web.id/home");
+	    driver.findElement(By.id("email")).sendKeys("fiora@gmail.com");
+	    driver.findElement(By.id("password")).sendKeys("fiora");
+	    driver.findElement(By.tagName("form")).submit();
+	    driver.findElement(By.cssSelector("img[alt='Product Logo']")).click();
+	}
+	
+	@And("user product clicks add product button")
+	public void user_product_clicks_add_product_button() {
+		driver.findElement(By.xpath("//button[contains(text(), 'Add Product')]")).click();
+	}
+	
+	@And("user product has showed modal pop up add product")
+	public void user_product_has_showed_modal_pop_up_add_product() {
+	    driver.findElement(By.cssSelector("div.modal-content")).isDisplayed();
+	}
+	
+	@When("user product clicks product button")
+	public void user_product_clicks_product_button() {
+	    driver.findElement(By.cssSelector("img[alt='Product Logo']")).click();
+	}
+	
+	@When("user product enters {string}, {string}, {string}, {string}, {string}, {string}, {string}, and {string}")
+	public void user_product_enters_image_product_code_product_name_category_expire_date_stocks_capital_price_and_price(String image, String productCode, String productName, String category, String expireDate, String stocks, String capitalPrice, String price) {
+		driver.findElement(By.id("productImage")).sendKeys(image);
+		driver.findElement(By.id("productCode")).sendKeys(productCode);
+	    driver.findElement(By.id("productName")).sendKeys(productName);
+	    driver.findElement(By.id("category"));
+	    driver.findElement(By.xpath("//option[contains(text(), '"+ category +"')]")).click();
+	    driver.findElement(By.id("productExpireDate")).sendKeys(expireDate);
+	    driver.findElement(By.id("productStocksAmount")).sendKeys(stocks);
+	    driver.findElement(By.id("productCapitalPrice")).sendKeys(capitalPrice);
+	    driver.findElement(By.id("productPrice")).sendKeys(price);
+	}
+	
+	@And("user product clicks on add products button")
+	public void user_product_clicks_on_add_products_button() {
+		driver.findElement(By.id("saveBtn")).click();
+	}
+
+	@Then("user product is navigated to the product page")
+	public void user_product_is_navigated_to_the_product_page() {
+		String page = driver.findElement(By.xpath("//p[text()='Product']")).getText();
+		assertEquals("Product", page);
+	}
+	
+	@Then("user product should be {string} to see product {string} in data stock alert")
+	public void user_product_should_be_able_or_not_to_see_product_productName_in_data_stock_alert(String ability, String productName) {
+		driver.findElement(By.xpath("//button[contains(text(),'Cancel')]")).click();
+		List<WebElement> product = driver.findElements(By.xpath("//h3[text()='Stock Alerts']//div[contains(., '"+ productName +"')]"));
+		if (ability.equals("able") && product.isEmpty()) {
+			System.out.println("New product in stock alerts section is not displayed");
+			assertFalse(product.isEmpty());
+		} else if (ability.equals("able")&& !product.isEmpty()) {
+			System.out.println("New product in stock alerts section is displayed");
+			assertTrue(!product.isEmpty());
+		} else if (ability.equals("not able") && product.isEmpty()) {
+			System.out.println("New product in stock alerts section is not displayed");
+			assertTrue(product.isEmpty());
+		} else if (ability.equals("not able") && !product.isEmpty()) {
+			System.out.println("New product in stock alerts section is displayed");
+			assertFalse(product.isEmpty());
+		}
+	}
+	
+	@And("user product should be able to see product data stock alert")
+	public void user_product_should_be_able_to_see_product_data_stock_alert() {
+		String page = driver.findElement(By.xpath("//h3[text()='Stock Alerts']")).getText();
+		assertEquals("Stock Alerts", page);
+	}
+}
