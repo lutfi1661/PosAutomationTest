@@ -1,3 +1,7 @@
+#Author : Lamda Richo Vanjaya Sumaryadi
+#Date	: 23/04/2023
+#Description : Testing in Add Employee POS
+
 @AddEmployee
 Feature: Feature to check add employee is successful with valid credentials
 	

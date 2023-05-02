@@ -1,10 +1,12 @@
 package Employee;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -13,6 +15,10 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+//Author : Lamda Richo Vanjaya Sumaryadi
+//Date	: 23/04/2023
+//Description : Testing in Edit Employee POS
 
 public class EditEmployeeSteps {
 	
@@ -26,8 +32,8 @@ WebDriver driver = null;
 	    
 	    driver = new ChromeDriver(options);
 	    
-	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 	}
 	
 //	And user edit employee is on home page
@@ -67,43 +73,56 @@ WebDriver driver = null;
 //	And user click button update
 	@And("user click button update")
 	public void user_click_button_update() {
-		driver.findElement(By.cssSelector("button#saveBtn")).click();
+//		driver.findElement(By.cssSelector("button#saveBtn")).click();
+		WebElement saveButton = driver.findElement(By.cssSelector("button#saveBtn"));
+		
+		if (saveButton.isEnabled() && saveButton.isDisplayed()) {
+		    System.out.println("Tombol Save dapat diklik");
+		    saveButton.click();
+		} else {
+		    System.out.println("Tombol Save tidak dapat diklik");
+		}
+		Assert.assertFalse(!saveButton.isEnabled() && !saveButton.isDisplayed());
 	}
 
 //	Then user should see the edit employee success notification
 	@Then("user should see the edit employee success notification")
 	public void user_should_see_the_edit_employee_success_notification() {
-		boolean isNotificationSuccessDisplayed = false;
-		try {
-			driver.findElement(By.xpath("//div[contains(text(),'Employee has been update successfully')]"));
-		} catch (NoSuchElementException e) {
-			isNotificationSuccessDisplayed = false;
+		List<WebElement> notification = driver.findElements(By.xpath("//div[contains(text(),'Employee has been update successfully')]"));
+		if (!notification.isEmpty()) {
+			System.out.println("Notification is success update employee is displayed!");
+		} else {
+			System.out.println("Notification is not displayed or Failed to update employee!");
 		}
-		Assert.assertFalse("Notification is not displayed or Failed to update employee!", isNotificationSuccessDisplayed);
+		Assert.assertTrue(!notification.isEmpty());
 	}
 	
 	@Then("user should be able to see {string} edit notification")
 	public void user_should_be_able_to_see_unsuccessReason_edit_notification(String unsuccessReason) {
 		if (unsuccessReason.equals("name field is wrong")){
-			boolean isNotificationUnsuccessDisplayed = false;
-			try {
-				driver.findElement(By.xpath("//div[contains(text(),'Employee has been update successfully')]"));
-				isNotificationUnsuccessDisplayed = false;
-			} catch (NoSuchElementException e) {
-				isNotificationUnsuccessDisplayed = true;
+			List<WebElement> notification = driver.findElements(By.xpath("//div[contains(text(),'Employee has been update successfully')]"));
+			if (!notification.isEmpty()) {
+				System.out.println("Notification name field is wrong is displayed!");
+			} else {
+				System.out.println("Notification name field is wrong is not displayed!");
 			}
-			 Assert.assertTrue("Failed to display the 'Failed to edit employee' notification! ", isNotificationUnsuccessDisplayed);
-		} else if (unsuccessReason.equals("email field is wrong")){
-			boolean isEmailFieldWrongNotificationDisplayed = false;
-			Assert.assertFalse("Failed to display the 'Email Field Wrong Notification", isEmailFieldWrongNotificationDisplayed);
+			Assert.assertTrue(!notification.isEmpty());
+		} else if (unsuccessReason.equals("email field is wrong")){   
+			List<WebElement> EmailFieldWrongNotification = driver.findElements(By.xpath("//div[contains(text(),'Email Field is Wrong!')]"));
+			if (!EmailFieldWrongNotification.isEmpty()) {
+				System.out.println("Notification email field wrong is displayed!");
+			} else {
+				System.out.println("Notification email field wrong is not displayed!");
+			}
+			Assert.assertTrue(!EmailFieldWrongNotification.isEmpty());
 		} else if (unsuccessReason.equals("please fill out this field")){
-			boolean isNotificationFilledDisplayed = false;
-			try {
-				driver.findElement(By.cssSelector("[required]"));
-			} catch (NoSuchElementException e) {
-				isNotificationFilledDisplayed = false;
+			List<WebElement> NotificationUnfilled = driver.findElements(By.xpath("//div[contains(text(),'Please fill out all field!')]"));
+			if (!NotificationUnfilled.isEmpty()) {
+				System.out.println("Notification unfilled is displayed!");
+			} else {
+				System.out.println("Notification unfilled is not displayed!");
 			}
-			Assert.assertFalse("Notification is not displayed", isNotificationFilledDisplayed);
+			Assert.assertTrue(!NotificationUnfilled.isEmpty());
 		}
 	}
 	

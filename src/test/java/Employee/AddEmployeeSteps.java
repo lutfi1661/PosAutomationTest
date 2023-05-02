@@ -1,10 +1,12 @@
 package Employee;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
@@ -13,6 +15,10 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+
+//Author : Lamda Richo Vanjaya Sumaryadi
+//Date	: 23/04/2023
+//Description : Testing in Add Employee POS
 
 public class AddEmployeeSteps {
 	
@@ -26,8 +32,8 @@ WebDriver driver = null;
 	    
 	    driver = new ChromeDriver(options);
 	    
-	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(30));
+	    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(60));
+	    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(60));
 	}
 	
 	@And("user employee is on home page")
@@ -68,45 +74,49 @@ WebDriver driver = null;
 
 	@Then("user should see the add employee success notification")
 	public void user_should_see_the_add_employee_success_notification() {
-		boolean isNotificationSuccessDisplayed = false;
-		try {
-			driver.findElement(By.xpath("//div[contains(text(),'Employee has been created successfully')]"));
-		} catch (NoSuchElementException e) {
-			isNotificationSuccessDisplayed = false;
+		List<WebElement> notification = driver.findElements(By.xpath("//div[contains(text(),'Employee has been created successfully')]"));
+		if (!notification.isEmpty()) {
+			System.out.println("Notification is success created employee is displayed!");
+		} else {
+			System.out.println("Notification is success created employee is not displayed!");
 		}
-		Assert.assertFalse("Notification is not displayed", isNotificationSuccessDisplayed);
+		Assert.assertTrue(!notification.isEmpty());
 	}
 	
 	@Then("user should be able to see {string} notification")
 	public void user_should_be_able_to_see_unsuccessReason_notification(String unsuccessReason) {
 		if (unsuccessReason.equals("the add employee unsuccess")){
-			boolean isNotificationUnsuccessDisplayed = false;
-			try {
-				driver.findElement(By.xpath("//div[contains(text(),'Employee has been created successfully')]"));
-				isNotificationUnsuccessDisplayed = false;
-			} catch (NoSuchElementException e) {
-				isNotificationUnsuccessDisplayed = true;
+			List<WebElement> notificationFailed = driver.findElements(By.xpath("//div[contains(text(),'Failed to create employee')]"));
+			if (!notificationFailed.isEmpty()) {
+				System.out.println("Notification is failed to create employee is displayed!");
+			} else {
+				System.out.println("Notification is failed to create employee is not displayed!");
 			}
-			 Assert.assertTrue("Failed to display the 'Failed to create employee' notification! ", isNotificationUnsuccessDisplayed);
+			Assert.assertTrue(!notificationFailed.isEmpty());
 		} else if (unsuccessReason.equals("Email field is wrong")){
-			boolean isEmailFieldWrongNotificationDisplayed = false;
-			Assert.assertFalse("Failed to display the 'Email Field Wrong Notification", isEmailFieldWrongNotificationDisplayed);
+			List<WebElement> notificationEmailWrong = driver.findElements(By.xpath("//div[contains(text(),'Email Field is Wrong!')]"));
+			if (!notificationEmailWrong.isEmpty()) {
+				System.out.println("Notification 'Email Field is Wrong!' is displayed!");
+			} else {
+				System.out.println("Notification 'Email Field is Wrong!' employee is not displayed!");
+			}
+			Assert.assertTrue(!notificationEmailWrong.isEmpty());
 		} else if (unsuccessReason.equals("password and confirm password must match")){
-			boolean isNotificationFailedDisplayed = false;
-			try {
-				driver.findElement(By.xpath("//div[contains(text(),'Password and Confirm Password must match')]"));
-			} catch (NoSuchElementException e) {
-				isNotificationFailedDisplayed = false;
+			List<WebElement> notificationPassword = driver.findElements(By.xpath("//div[contains(text(),'Password and Confirm Password must match')]"));
+			if (!notificationPassword.isEmpty()) {
+				System.out.println("Notification 'Password and Confirm Password must match' is displayed!");
+			} else {
+				System.out.println("Notification 'Password and Confirm Password must match' employee is not displayed!");
 			}
-			Assert.assertFalse("Notification is not displayed", isNotificationFailedDisplayed);
+			Assert.assertTrue(!notificationPassword.isEmpty());
 		} else if (unsuccessReason.equals("please fill out this field")){
-			boolean isNotificationFilledDisplayed = false;
-			try {
-				driver.findElement(By.cssSelector("[required]"));
-			} catch (NoSuchElementException e) {
-				isNotificationFilledDisplayed = false;
+			List<WebElement> NotificationUnfilled = driver.findElements(By.xpath("//div[contains(text(),'Please fill out all field!')]"));
+			if (!NotificationUnfilled.isEmpty()) {
+				System.out.println("Notification unfilled is displayed!");
+			} else {
+				System.out.println("Notification unfilled is not displayed!");
 			}
-			Assert.assertFalse("Notification is not displayed", isNotificationFilledDisplayed);
+			Assert.assertTrue(!NotificationUnfilled.isEmpty());
 		}
 	}
 

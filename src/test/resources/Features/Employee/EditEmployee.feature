@@ -1,3 +1,7 @@
+#Author : Lamda Richo Vanjaya Sumaryadi
+#Date	: 23/04/2023
+#Description : Testing in Edit Employee POS
+
 @EditEmployee
 Feature: Feature to check edit employee is successful
 	
