@@ -18,12 +18,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+//Author : Rusyda Jasmine Rachmat
+//Date : 28/04/2023
+//Description : Testing in Expire Soon in Product
+
 public class expSoonSteps {
 WebDriver driver = null;
 	
 	@Given("user has opened the browser")
 	public void user_has_opened_the_browser() {
-	    System.setProperty("webdriver.chrome.driver", "C:/Users/jasmine/eclipse-workspace/CucumberJava/src/test/resources/drivers/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "C:/Users/mirva/eclipse-workspace/CucumberJava/src/test/resources/drivers/chromedriver.exe");
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--remote-allow-origins=*");
 	    
@@ -92,8 +96,7 @@ WebDriver driver = null;
 	@Then("user should be {string} to see product {string} in data expire soon")
 	public void user_should_be_able_or_not_to_see_product_productName_in_data_expire_soon(String ability, String productName) {
 		driver.findElement(By.xpath("//button[contains(text(),'Cancel')]")).click();
-		List<WebElement> product = driver.findElements(By.xpath("//h3[text()='Expire Soon']//div[contains(., '"+ productName +"')]"));
-//		List<WebElement> product = driver.findElements(By.xpath("//div[contains(text(), '"+ productName +"')]"));
+		List<WebElement> product = driver.findElements(By.xpath("//div[contains(@class, 'card-susu') and contains(@class, 'mb-2')]//div[contains(@class, 'card-text') and contains(@class, 'mt-1') and contains(@class, 'p-0') and contains(@class, 'ml-1') and contains(text(), '"+ productName +"')]"));
 		if (ability.equals("able") && product.isEmpty()) {
 			System.out.println("New product in expire section is not displayed");
 			assertFalse(product.isEmpty());

@@ -18,12 +18,16 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
+//Author : Rusyda Jasmine Rachmat
+//Date : 28/04/2023
+//Description : Testing in Stock Alerts in Product
+
 public class stockAlertSteps {
 WebDriver driver = null;
 	
 	@Given("user product has opened the browser")
 	public void user_product_has_opened_the_browser() {
-	    System.setProperty("webdriver.chrome.driver", "C:/Users/jasmine/eclipse-workspace/CucumberJava/src/test/resources/drivers/chromedriver.exe");
+		System.setProperty("webdriver.chrome.driver", "C:/Users/mirva/eclipse-workspace/CucumberJava/src/test/resources/drivers/chromedriver.exe");
 	    ChromeOptions options = new ChromeOptions();
 	    options.addArguments("--remote-allow-origins=*");
 	    
@@ -92,7 +96,7 @@ WebDriver driver = null;
 	@Then("user product should be {string} to see product {string} in data stock alert")
 	public void user_product_should_be_able_or_not_to_see_product_productName_in_data_stock_alert(String ability, String productName) {
 		driver.findElement(By.xpath("//button[contains(text(),'Cancel')]")).click();
-		List<WebElement> product = driver.findElements(By.xpath("//h3[text()='Stock Alerts']//div[contains(., '"+ productName +"')]"));
+		List<WebElement> product = driver.findElements(By.xpath("//div[contains(@class,'card-body')][text()='" + productName + "']//*[contains(@class,'progress') or contains(@class,'stock')]"));
 		if (ability.equals("able") && product.isEmpty()) {
 			System.out.println("New product in stock alerts section is not displayed");
 			assertFalse(product.isEmpty());

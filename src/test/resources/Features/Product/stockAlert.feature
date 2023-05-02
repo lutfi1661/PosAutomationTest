@@ -1,6 +1,7 @@
-#Author
-#Date
-#Description
+#Author : Rusyda Jasmine Rachmat
+#Date : 28/04/2023
+#Description : Testing in Stock Alerts in Product
+
 @StockAlert
 Feature: feature to test displaying data stock alert functionality
 
@@ -13,7 +14,7 @@ Feature: feature to test displaying data stock alert functionality
     And user product should be able to see product data stock alert
 
   @StockAlert2
-  Scenario: check data stock alert is showed on product page <conditions>
+  Scenario Outline: check data stock alert is showed on product page <conditions>
     Given user product has opened the browser
     And user product on the product page
     And user product clicks add product button
@@ -23,6 +24,6 @@ Feature: feature to test displaying data stock alert functionality
     Then user product should be "<ability>" to see product "<productName>" in data stock alert
 
     Examples: 
-      | image 																	| productCode | productName  | category | expireDate | stocks | capitalPrice | price | ability | conditions 																					|
-      | C:/Users/jasmine/Pictures/ultramilk.jpg | 1231 			  | ultramilk 	 | Milk     | 30/04/2023 | 5		  | 1200				 | 2500	 | able		 | within add product and the expire date is < 180 days |
- 			| C:/Users/jasmine/Pictures/ultramilk.jpg | 1231 			  | ultramilk 	 | Milk     | 30/04/2023 | 150	  | 1200				 | 2500	 | not able| within add product and the expire date is > 180 days |
+      | image                                   | productCode | productName | category | expireDate | stocks | capitalPrice | price | ability  | conditions                                |
+      | C:/Users/mirva/Downloads/ultramilk.jpeg |        1231 | ultramilk   | Milk     | 30/04/2024 |      5 |         1200 |  2500 | able     | within add product and the stock is < 100 |
+      | C:/Users/mirva/Downloads/ultramilk.jpeg |        1232 | ultramilk2  | Milk     | 30/04/2024 |    150 |         1200 |  2500 | not able | within add product and the stock is > 100 |
